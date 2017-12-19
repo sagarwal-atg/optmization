@@ -37,9 +37,9 @@ pred, W, b = linear(X,1, return_params=True)
 # Mean squared error
 cost = tf.reduce_mean(tf.pow(pred-Y, 2))/(2*n_samples)
 # Gradient descent
-optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
+optimizer = tf.train.GradientDescentOptimizer(learning_rate)
 
-optimizer = ScipyOptimizerInterface(cost, options={ 'maxiter': 100}, method='CG')
+optimizer = ScipyOptimizerInterface(cost, options={ 'maxiter': 100}, method='BFGS')
 
 # Initialize the variables (i.e. assign their default value)
 init = tf.global_variables_initializer()
@@ -50,9 +50,12 @@ with tf.Session() as sess:
     # Fit all training data
     for epoch in range(training_epochs):
         for (x, y) in zip(train_X, train_Y):
-            sess.run(optimizer, feed_dict={X: x, Y: y})
+            optimizer.minimize(sess, feed_dict={X: x, Y: y} )
+            # print(a)
+            sess.run(cost)
+            # sess.run(optimizer.minimize(cost), feed_dict={X: x, Y: y})
         #Display logs per epoch step
-        if (epoch+1) % display_step == 0:
+        if True or (epoch+1) % display_step == 0:
             c=0
             for (x, y) in zip(train_X, train_Y):
                 c+= sess.run(cost, feed_dict={X: x, Y:y})

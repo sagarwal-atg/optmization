@@ -128,13 +128,13 @@ with tf.Session() as sess:
         for i in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
             # Fit training using batch data
-            a = optimizer.minimize(sess, feed_dict={x: batch_xs,y: batch_ys} )
-            print(a)
+            optimizer.minimize(sess, feed_dict={x: batch_xs,y: batch_ys} )
+            # print(a)
             c = sess.run( cost, feed_dict={x: batch_xs,y: batch_ys})
-            print(c)
+            # print(c)
             # c = optimizer.minimize(sess)
             # Compute average loss
-            avg_cost += c / total_batch
+            avg_cost +=  c / total_batch
         # Display logs per epoch step
         if (epoch+1) % display_step == 0:
             print ("Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost))
