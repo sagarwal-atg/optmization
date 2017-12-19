@@ -93,7 +93,7 @@ def lenet(x):
     out = tf.nn.softmax(linear(x, 10))
     return out
 
-model = lenet
+model = linear_model
 # Parameters
 learning_rate = 0.1
 
