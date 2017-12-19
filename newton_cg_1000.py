@@ -3,9 +3,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.optimize as otmz
 from tensorflow.contrib.opt import ScipyOptimizerInterface
+
 # Import MINST data
 from tensorflow.examples.tutorials.mnist import input_data
-mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
+mnist = input_data.read_data_sets("~/optimization/", one_hot=True)
 
 ## Here, we're defining reusable components of computational graphs
 # This is the idea used by tf.contrib.slim and tflearn

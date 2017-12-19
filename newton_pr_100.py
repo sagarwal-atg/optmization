@@ -1,6 +1,8 @@
 import tensorflow as tf
 import numpy
 import matplotlib.pyplot as plt
+from tensorflow.contrib.opt import ScipyOptimizerInterface
+
 rng = numpy.random
 
 # Parameters
@@ -37,6 +39,7 @@ cost = tf.reduce_mean(tf.pow(pred-Y, 2))/(2*n_samples)
 # Gradient descent
 optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
 
+optimizer = ScipyOptimizerInterface(cost, options={ 'maxiter': 100}, method='CG')
 
 # Initialize the variables (i.e. assign their default value)
 init = tf.global_variables_initializer()
@@ -48,7 +51,6 @@ with tf.Session() as sess:
     for epoch in range(training_epochs):
         for (x, y) in zip(train_X, train_Y):
             sess.run(optimizer, feed_dict={X: x, Y: y})
-
         #Display logs per epoch step
         if (epoch+1) % display_step == 0:
             c=0
