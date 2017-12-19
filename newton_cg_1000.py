@@ -127,7 +127,7 @@ with tf.Session() as sess:
         for i in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
             # Fit training using batch data
-            a = optimizer.minimize([sess,cost], feed_dict={x: batch_xs,y: batch_ys} )
+            a = optimizer.minimize(sess, feed_dict={x: batch_xs,y: batch_ys} )
             print(a)
             c = sess.run( cost, feed_dict={x: batch_xs,y: batch_ys})
             print(c)
