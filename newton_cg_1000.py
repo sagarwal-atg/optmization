@@ -2,7 +2,7 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.optimize as otmz
-
+from tensorflow.contrib.opt import ScipyOptimizerInterface
 # Import MINST data
 from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
@@ -109,9 +109,9 @@ pred = model(x)
 # Minimize error using cross entropy
 cost = tf.reduce_mean(-tf.reduce_sum(y*tf.log(pred), reduction_indices=1))
 # Gradient Descent
-# optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
+optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
 
-optimizer = ScipyOptimizerInterface(cost, options={'maxiter': 1000})
+# optimizer = ScipyOptimizerInterface(cost, options={'maxiter': 1000})
 
 # Initialize the variables (i.e. assign their default value)
 init = tf.global_variables_initializer()
@@ -127,7 +127,7 @@ with tf.Session() as sess:
         for i in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
             # Fit training using batch data
-            _, c = sess.run([optimizer.fmin_ncg, cost], feed_dict={x: batch_xs,
+            _, c = sess.run([optimizer, cost], feed_dict={x: batch_xs,
                                                           y: batch_ys})
             # Compute average loss
             avg_cost += c / total_batch
